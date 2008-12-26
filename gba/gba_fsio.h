@@ -7,7 +7,7 @@
 #define GBA_FSIO_IWRAM_CALL_LENGTH ,long_call
 #endif
 
-#define GBA_FSIO_IWRAM_FUNC(func) __attribute__ ((section(".iwram.text") GBA_FSIO_IWRAM_CALL_LENGTH)) func
+#define GBA_FSIO_IWRAM_FUNC(func) __attribute__ ((section(".iwram") GBA_FSIO_IWRAM_CALL_LENGTH)) func
 
 /* Experimental write pre-caching */
 // #define GAMEBOY_WCACHE   1

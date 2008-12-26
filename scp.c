@@ -78,7 +78,7 @@ static int32 noqueue_time;
 volatile int32 stop_cpu = 0;
 t_value *sim_eval = NULL;
 int32 sim_end = 1;				/* 1 = little, 0 = big */
-unsigned char sim_flip[FLIP_SIZE];
+__attribute__ ((section(".ewram"))) unsigned char sim_flip[FLIP_SIZE];
 
 #define print_val(a,b,c,d) fprint_val (stdout, (a), (b), (c), (d))
 #define SZ_D(dp) (size_map[((dp) -> dwidth + CHAR_BIT - 1) / CHAR_BIT])

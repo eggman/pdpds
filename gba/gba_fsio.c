@@ -9,7 +9,7 @@
 
 long fpos[GBA_MAXFILES];
 int filestable[GBA_MAXFILES];
-dcache_t D[DI_MAX];
+__attribute__ ((section(".ewram"))) dcache_t D[DI_MAX];
 int di = 0;
 
 void

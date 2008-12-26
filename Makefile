@@ -1,12 +1,18 @@
 # Amit Singh
 # http://www.kernelthread.com
 #
+# Kohei SEKINE
+# http://d.hatena.ne.jp/eggman/
+#
 # 5th Edition UNIX on the Nintendo Gameboy Advance
 #
 
-# Host: Mac OS X
+# Host: Windows
+include $(DEVKITARM)\gba_rules
 
-CROSSTOOLS_PREFIX = arm-elf
+export DEPSDIR   := $(CURDIR)/build
+
+CROSSTOOLS_PREFIX = arm-eabi
 CROSSTOOLS_PATH   = /usr/local/devkitARM
 AS                = $(CROSSTOOLS_PREFIX)-as
 CC                = $(CROSSTOOLS_PREFIX)-gcc
@@ -35,7 +41,7 @@ CFLAGS            = $(GAMEBOY_FLAGS) $(INCLUDES) $(LOCAL_INCLUDES) $(COPTFLAG) \
 CFLAGS_ARM        = $(GAMEBOY_FLAGS) $(INCLUDES) $(LOCAL_INCLUDES) $(COPTFLAG) \
                     -marm -mthumb-interwork -specs=gba.specs -mcpu=arm7tdmi \
                     -mtune=arm7tdmi
-LDFLAGS           = -Map /tmp/gba.map -lm
+LDFLAGS           = -Map unixv5.map -lm
 #LDFLAGS           = -lm
 OBJCOPYFLAGS      = -v -O binary
 
@@ -83,6 +89,9 @@ gba/gba_tty.h: gba/gba_io.h
 # --
 
 pdp11_cpu.o: pdp11_cpu.c pdp11_defs.h gba/gba_io.h
+	mkdir build
+	mkdir build\\gba
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 pdp11_fp.o: pdp11_fp.c pdp11_defs.h gba/gba_io.h
 
