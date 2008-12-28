@@ -33,7 +33,11 @@
 #include <errno.h>
 
 #ifdef GAMEBOY
+#ifdef NDS
+#include "nds/nds_fsio.h"
+#else
 #include "gba/gba_fsio.h"
+#endif
 #define GAMEBOY_STATIC
 #else
 #define GAMEBOY_STATIC static

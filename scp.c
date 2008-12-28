@@ -22,8 +22,13 @@
 #define SCP	1					/* defining module */
 #include "sim_defs.h"
 #ifdef GAMEBOY
+#ifdef NDS
+#include "nds/nds_fsio.h"
+#include "nds/nds_intr.h"
+#else
 #include "gba/gba_fsio.h"
 #include "gba/gba_intr.h"
+#endif
 #endif
 #include <limits.h>
 #include <signal.h>
