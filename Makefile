@@ -39,7 +39,7 @@ CFLAGS            = $(GAMEBOY_FLAGS) $(INCLUDES) $(LOCAL_INCLUDES) $(COPTFLAG) \
                     -mthumb-interwork -specs=ds_arm9.specs -mcpu=arm7tdmi \
                     -mtune=arm7tdmi
 CFLAGS_ARM        = $(GAMEBOY_FLAGS) $(INCLUDES) $(LOCAL_INCLUDES) $(COPTFLAG) \
-                    -marm -mthumb-interwork -specs=nds.specs -mcpu=arm7tdmi \
+                    -marm -mthumb-interwork -specs=ds_arm9.specs -mcpu=arm7tdmi \
                     -mtune=arm7tdmi
 LDFLAGS           = -Map unixv5.map -lm
 #LDFLAGS           = -lm
