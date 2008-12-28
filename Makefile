@@ -125,8 +125,8 @@ sim_defs.h: nds/nds_fsio.h
 
 $(GBAUNIXV5_ROM): $(GBAUNIXV5_TMP) $(UNIXV5_DISK)
 	@rm nds/nds_fsio_core.o
-	@echo "#define GBA_UNIXOFFSET `cat $(GBAUNIXV5_TMP) | wc -c`" > nds/nds_unix.h
-	@echo "#define GBA_UNIXSIZE `cat $(UNIXV5_DISK) | wc -c`" >> nds/nds_unix.h
+	@echo "#define NDS_UNIXOFFSET `cat $(GBAUNIXV5_TMP) | wc -c`" > nds/nds_unix.h
+	@echo "#define NDS_UNIXSIZE `cat $(UNIXV5_DISK) | wc -c`" >> nds/nds_unix.h
 	$(CC) $(CFLAGS) -c nds/nds_fsio_core.c -o nds/nds_fsio_core.o
 	$(CC) $(CFLAGS) -o $(GBAUNIXV5_ELF) $(OBJS) -Wl,$(LDFLAGS)
 	$(OBJCOPY) $(OBJCOPYFLAGS) $(GBAUNIXV5_ELF) $(GBAUNIXV5_TMP)
