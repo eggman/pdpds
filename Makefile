@@ -36,12 +36,10 @@ GAMEBOY_FLAGS     = -DGAMEBOY -DNDS
 # COPTFLAG        = -Os
 COPTFLAG          = -O3
 CFLAGS            = $(GAMEBOY_FLAGS) $(INCLUDES) $(LOCAL_INCLUDES) $(COPTFLAG) \
-                    -mthumb-interwork -specs=ds_arm9.specs -mcpu=arm7tdmi \
-                    -mtune=arm7tdmi
+                    -specs=ds_arm9.specs 
 CFLAGS_ARM        = $(GAMEBOY_FLAGS) $(INCLUDES) $(LOCAL_INCLUDES) $(COPTFLAG) \
-                    -marm -mthumb-interwork -specs=ds_arm9.specs -mcpu=arm7tdmi \
-                    -mtune=arm7tdmi
-LDFLAGS           = -Map unixv5.map -lm
+                    -marm -mthumb-interwork -specs=ds_arm9.specs 
+LDFLAGS           = -Map unixv5.map -lm -Lc:/devkitpro/libnds/lib -lnds9 
 #LDFLAGS           = -lm
 OBJCOPYFLAGS      = -v -O binary
 
