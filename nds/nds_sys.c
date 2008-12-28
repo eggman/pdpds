@@ -1,34 +1,20 @@
-#include "gba_intr.h"
-#include "gba_sys.h"
-#include "gba_tty.h"
+#include "nds_sys.h"
 
 void
-gba_reset(void)
+nds_reset(void)
 {
-    gba_syscall(0x0);
+    //nds_syscall(0x3);
 }
 
 void
-gba_stop(void)
+nds_stop(void)
 {
-    gba_syscall(0x3);
+    //nds_syscall(0x3);
 }
 
 void
-gba_abort(char *msg)
+nds_abort(char *msg)
 {
     gba_tty_print(msg);
-    gba_stop();
-}
-
-inline void
-gba_intr_wait(u32 rflag, u32 iflag)
-{
-    gba_syscall(0x4);
-}
-
-inline void
-gba_cpufastset(u32 src, u32 dst, u32 lenmode)
-{
-    gba_syscall(0xc);
+    nds_stop();
 }

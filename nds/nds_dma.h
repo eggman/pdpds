@@ -1,8 +1,8 @@
-#ifndef _GBA_DMA_H_
-#define _GBA_DMA_H_
+#ifndef _NDS_DMA_H_
+#define _NDS_DMA_H_
 
-#include "gba_io.h"
-#include "gba_intr.h"
+#include "nds_io.h"
+#include "nds_intr.h"
 
 #define GBA_DMA3_SRCREG	*((vu32 *)0x40000D4)
 #define GBA_DMA3_DSTREG *((vu32 *)0x40000D8)
@@ -61,4 +61,4 @@
 #define gba_memcpy(dst, src, cnt) memcpy(dst, src, cnt)
 #endif
 
-#endif /* _GBA_DMA_H_ */
+#endif /* _NDS_DMA_H_ */

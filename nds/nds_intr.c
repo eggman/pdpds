@@ -1,5 +1,5 @@
-#include "gba_intr.h"
-#include "gba_gfx.h"
+#include "nds_intr.h"
+#include "nds_gfx.h"
 
 #ifdef GAMEBOY_KEYPAD_IRQ
 volatile int readyforinput = 0;

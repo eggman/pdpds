@@ -9,11 +9,11 @@ __attribute__ ((long_call)) void *memmove(void *, void *, size_t);
 __attribute__ ((long_call)) void *memcpy(void *, const void *, size_t);
 #endif
 
-#include "gba_fsio.h"
-#include "gba_dma.h"
-#include "gba_unix.h"
+#include "nds_fsio.h"
+#include "nds_dma.h"
+#include "nds_unix.h"
 
-const char *unixv5 = (char *)(0x08000000 + GBA_UNIXOFFSET);
+const char *unixv5 = (char *)(0x08000000 + NDS_UNIXOFFSET);
 
 int
 gba_fseek(FILE *stream, long offset, int whence)
@@ -67,7 +67,7 @@ gba_fread(void *_ptr, size_t size, size_t nmemb, FILE *stream)
                 continue;
             if ((basep + nbytesp) <= (base + nbytes)) { /* b */
                 if (D[i].data == NULL) {
-                    gba_abort("Disk error. Halted.\n");
+                    nds_abort("Disk error. Halted.\n");
                     return 0;
                 }
                 diff = basep - base;
@@ -87,8 +87,8 @@ gba_fread(void *_ptr, size_t size, size_t nmemb, FILE *stream)
     }
 
     if (overlapped == -1) {
-        if ((fpos[(int)stream] + nbytesp) >= GBA_UNIXSIZE) {
-            nbytesp = GBA_UNIXSIZE - nbytesp - 1;
+        if ((fpos[(int)stream] + nbytesp) >= NDS_UNIXSIZE) {
+            nbytesp = NDS_UNIXSIZE - nbytesp - 1;
             gba_memcpy(ptr, unixv5 + fpos[(int)stream], nbytesp);
             fpos[(int)stream] += nbytesp;
             return EOF;
@@ -164,7 +164,7 @@ gba_fwrite(void *_ptr, size_t size, size_t nmemb, FILE *stream)
         D[di].nbytes = nbytesp;
         D[di].data = (unsigned char *)malloc(nbytesp);
         if (D[di].data == NULL) {
-            gba_abort("Memory exhausted. Halting.\n"); 
+            nds_abort("Memory exhausted. Halting.\n"); 
             return 0;
         }
         gba_memcpy(D[di].data, ptr, nbytesp);
@@ -176,7 +176,7 @@ gba_fwrite(void *_ptr, size_t size, size_t nmemb, FILE *stream)
     if (basep >= base) { /* c */
         tmp = (unsigned char *)realloc(D[i].data, basep - base + nbytesp);
         if (tmp == NULL) {
-            gba_abort("Memory exhausted. Halting.\n"); 
+            nds_abort("Memory exhausted. Halting.\n"); 
             return 0;
         }
         D[i].data = tmp;
@@ -185,7 +185,7 @@ gba_fwrite(void *_ptr, size_t size, size_t nmemb, FILE *stream)
     } else if ((basep + nbytesp) > (base + nbytes)) { /* e */
         tmp = (unsigned char *)realloc(D[i].data, nbytesp);
         if (tmp == NULL) {
-            gba_abort("Memory exhausted. Halting.\n"); 
+            nds_abort("Memory exhausted. Halting.\n"); 
             return 0;
         }
         D[i].data = tmp;
@@ -195,7 +195,7 @@ gba_fwrite(void *_ptr, size_t size, size_t nmemb, FILE *stream)
     } else { /* f */
         tmp = (unsigned char *)realloc(D[i].data, base - basep + nbytes);
         if (tmp == NULL) {
-            gba_abort("Memory exhausted. Halting.\n"); 
+            nds_abort("Memory exhausted. Halting.\n"); 
             return 0;
         }
         D[i].data = tmp;
@@ -213,7 +213,7 @@ gba_fwrite(void *_ptr, size_t size, size_t nmemb, FILE *stream)
 int
 gba_getc(FILE *stream)
 {
-    if (fpos[(int)stream] < GBA_UNIXSIZE) {
+    if (fpos[(int)stream] < NDS_UNIXSIZE) {
         fpos[(int)stream] = fpos[(int)stream] + 1;
         return unixv5[fpos[(int)stream] - 1];
     } else

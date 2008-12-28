@@ -1,7 +1,7 @@
-#ifndef _GBA_INTR_H_
-#define _GBA_INTR_H_
+#ifndef _NDS_INTR_H_
+#define _NDS_INTR_H_
 
-#include "gba_io.h"
+#include "nds_io.h"
 
 typedef void (* intr_func_t)(void);
 
@@ -30,9 +30,9 @@ typedef enum {
 } intr_type_t;
 
 #define INT_VECTOR  *(intr_func_t *)(0x03007ffc)
-#define	REG_IME     *(vu16 *)(GBA_IOBASE + 0x208)
-#define	REG_IE      *(vu16 *)(GBA_IOBASE + 0x200)
-#define	REG_IF      *(vu16 *)(GBA_IOBASE + 0x202)
+#define	REG_IME     *(vu16 *)(NDS_IOBASE + 0x208)
+#define	REG_IE      *(vu16 *)(NDS_IOBASE + 0x200)
+#define	REG_IF      *(vu16 *)(NDS_IOBASE + 0x202)
 #define REG_BIOSIF  *(vu16 *)0x03fffff8
 #define REG_P1CNT   *(vu16 *)0x04000132
 #define REG_WAITCNT *(vu16 *)0x04000204
@@ -64,4 +64,4 @@ void gba_set_interrupt(intr_type_t intr, intr_func_t func);
 
 #define	GBA_VBLANK_intr_wait() gba_syscall(0x5)
 
-#endif /* _GBA_INTR_H_ */
+#endif /* _NDS_INTR_H_ */

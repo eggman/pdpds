@@ -1,8 +1,8 @@
 #include "../sim_defs.h"
-#include "gba_io.h"
-#include "gba_kbd.h"
-#include "gba_dma.h"
-#include "gba_tty.h"
+#include "nds_io.h"
+#include "nds_kbd.h"
+#include "nds_dma.h"
+#include "nds_tty.h"
 
 int gba_tty_X;
 int gba_tty_Y;
@@ -16,7 +16,7 @@ gba_tty_inittext(void)
     unsigned char bits;
     int i, j, r, b;
 
-    vp = (unsigned short *)GBA_VRAM;
+    vp = (unsigned short *)NDS_VRAM;
 
     for (j = 0; (j < 2); j++) {
         cp = (struct charmap *) &gbatxt_charmap[0];
@@ -39,11 +39,11 @@ gba_tty_init(void)
     volatile unsigned short *pp;
 
     /* Enable mode 0 */
-    *((unsigned short *) (GBA_IOBASE + 0x00)) = 0x0100; /*MODE0|BG0*/
-    *((unsigned short *) (GBA_IOBASE + 0x08)) = 0x1080;
+    *((unsigned short *) (NDS_IOBASE + 0x00)) = 0x0100; /*MODE0|BG0*/
+    *((unsigned short *) (NDS_IOBASE + 0x08)) = 0x1080;
 
     /* Default palete, everything is white :-) */
-    pp = (volatile unsigned short *)GBA_PALETTE;
+    pp = (volatile unsigned short *)NDS_PALETTE;
     for (i = 255; i; i--)
         pp[i] = 0x7fff;
     pp[0] = 0;
@@ -57,7 +57,7 @@ gba_tty_init(void)
 void
 gba_tty_setxy(int x, int y)
 {
-    if ((x >= 0) && (x < GBA_XLEN) && (y >= 0) && (y < GBA_YLEN)) {
+    if ((x >= 0) && (x < NDS_XLEN) && (y >= 0) && (y < NDS_YLEN)) {
         gba_tty_X = x;
         gba_tty_Y = y;
     }
@@ -69,14 +69,14 @@ gba_tty_scroll(void)
     unsigned short *sp, *dp;
     int len;
 
-    dp = (unsigned short *)(GBA_VRAM + 0x8000);
-    sp = dp + GBA_XMAX;
-    len = (GBA_XMAX * (GBA_YLEN - 1));
+    dp = (unsigned short *)(NDS_VRAM + 0x8000);
+    sp = dp + NDS_XMAX;
+    len = (NDS_XMAX * (NDS_YLEN - 1));
 
     while (len--)
         *dp++ = *sp++;
 
-    for (len = GBA_XMAX; len; len--)
+    for (len = NDS_XMAX; len; len--)
         *dp++ = 0;
 }
 
@@ -85,17 +85,17 @@ gba_tty_putc(int c)
 {
     unsigned short *vp;
 
-    vp = (unsigned short *)(GBA_VRAM + 0x8000);
-    vp += (gba_tty_Y * GBA_XMAX) + gba_tty_X;
+    vp = (unsigned short *)(NDS_VRAM + 0x8000);
+    vp += (gba_tty_Y * NDS_XMAX) + gba_tty_X;
     *vp = c;
 
     gba_tty_X++;
-    if ((gba_tty_X >= GBA_XLEN) || (c == '\n')) {
+    if ((gba_tty_X >= NDS_XLEN) || (c == '\n')) {
         gba_tty_X = 0;
         gba_tty_Y++;
-        if (gba_tty_Y >= GBA_YLEN) {
+        if (gba_tty_Y >= NDS_YLEN) {
             gba_tty_scroll();
-            gba_tty_Y = GBA_YLEN - 1;
+            gba_tty_Y = NDS_YLEN - 1;
         }
     }
 
@@ -166,7 +166,7 @@ gba_kbd_read(int d, void *_buf, int nbytes)
         return -1;
 
     if (!readyforinput) {
-        if (GBA_ISKEY_DOWN(GBA_KEY_START))
+        if (NDS_ISKEY_DOWN(NDS_KEY_START))
             readyforinput = 1;
         else
             return -1;

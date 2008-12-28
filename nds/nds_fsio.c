@@ -2,13 +2,13 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "gba_dma.h"
-#include "gba_fsio.h"
-#include "gba_sys.h"
-#include "gba_unix.h"
+#include "nds_dma.h"
+#include "nds_fsio.h"
+#include "nds_sys.h"
+#include "nds_unix.h"
 
-long fpos[GBA_MAXFILES];
-int filestable[GBA_MAXFILES];
+long fpos[NDS_MAXFILES];
+int filestable[NDS_MAXFILES];
 __attribute__ ((section(".ewram"))) dcache_t D[DI_MAX];
 int di = 0;
 
@@ -26,7 +26,7 @@ gba_fsio_init(void)
         D[i].data = (unsigned char *)0;
     }
 
-    for (i = 0; i < GBA_MAXFILES; i++) {
+    for (i = 0; i < NDS_MAXFILES; i++) {
         fpos[i] = 0;
         filestable[i] = 0;
     }
@@ -62,11 +62,11 @@ gba_fopen(const char *path, const char *mode)
 {
     int i;
 
-    for (i = 0; i < GBA_MAXFILES; i++)
+    for (i = 0; i < NDS_MAXFILES; i++)
         if (filestable[i] == 0)
             break;
 
-    if (i == GBA_MAXFILES)
+    if (i == NDS_MAXFILES)
         return (void *)0;
 
     fpos[i] = 0;
@@ -119,7 +119,7 @@ gba_fgets(char *cptr, int size, FILE *s)
 
     }
 
-    gba_stop();
+    nds_stop();
 
     return (char *)0;
 }

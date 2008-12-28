@@ -1,18 +1,14 @@
-#ifndef _GBA_FSIO_H_
-#define _GBA_FSIO_H_
+#ifndef _NDS_FSIO_H_
+#define _NDS_FSIO_H_
 
-#ifdef GBA_FSIO_CORE
-#define GBA_FSIO_IWRAM_CALL_LENGTH
-#else
-#define GBA_FSIO_IWRAM_CALL_LENGTH ,long_call
-#endif
+#define NDS_FSIO_IWRAM_CALL_LENGTH
 
-#define GBA_FSIO_IWRAM_FUNC(func) __attribute__ ((section(".iwram") GBA_FSIO_IWRAM_CALL_LENGTH)) func
+#define NDS_FSIO_IWRAM_FUNC(func) func
 
 /* Experimental write pre-caching */
 // #define GAMEBOY_WCACHE   1
 
-#define GBA_MAXFILES 4
+#define NDS_MAXFILES 4
 #define DI_MAX       512
 
 typedef struct dcache_s {
@@ -38,12 +34,12 @@ int gba_puts(char *s);
 int gba_putsnl(char *s);
 int gba_kbd_read(int d, void *buf, int nbytes);
 
-GBA_FSIO_IWRAM_FUNC(int gba_getc(FILE *stream));
-GBA_FSIO_IWRAM_FUNC(size_t gba_fread(void *ptr, size_t size, size_t nmemb, FILE *stream));
-GBA_FSIO_IWRAM_FUNC(long gba_ftell(FILE *stream));
-GBA_FSIO_IWRAM_FUNC(int gba_fseek(FILE *stream, long offset, int whence));
-GBA_FSIO_IWRAM_FUNC(size_t gba_fwrite(void *ptr, size_t size, size_t nmemb, FILE *stream));
-GBA_FSIO_IWRAM_FUNC(void gba_rewind(FILE *stream));
+NDS_FSIO_IWRAM_FUNC(int gba_getc(FILE *stream));
+NDS_FSIO_IWRAM_FUNC(size_t gba_fread(void *ptr, size_t size, size_t nmemb, FILE *stream));
+NDS_FSIO_IWRAM_FUNC(long gba_ftell(FILE *stream));
+NDS_FSIO_IWRAM_FUNC(int gba_fseek(FILE *stream, long offset, int whence));
+NDS_FSIO_IWRAM_FUNC(size_t gba_fwrite(void *ptr, size_t size, size_t nmemb, FILE *stream));
+NDS_FSIO_IWRAM_FUNC(void gba_rewind(FILE *stream));
 
 void gba_abort(char *msg);
 void *gba_calloc(size_t nmemb, size_t size);

@@ -1,4 +1,4 @@
-#include "gba_tty.h"
+#include "nds_tty.h"
 
 const struct charmap
 gbatxt_charmap[] = {

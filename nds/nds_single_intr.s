@@ -1,4 +1,4 @@
-.section .iwram,"ax",%progbits
+@.section .iwram,"ax",%progbits
 .extern	intr_table
 .code 32
 
