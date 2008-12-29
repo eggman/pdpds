@@ -13,14 +13,14 @@ include $(DEVKITARM)\ds_rules
 export DEPSDIR   := $(CURDIR)/build
 
 CROSSTOOLS_PREFIX = arm-eabi
-CROSSTOOLS_PATH   = /usr/local/devkitARM
+CROSSTOOLS_PATH   = c:/devkitpro/devkitARM
 AS                = $(CROSSTOOLS_PREFIX)-as
 CC                = $(CROSSTOOLS_PREFIX)-gcc
 LD                = $(CROSSTOOLS_PREFIX)-ld
 OBJCOPY           = $(CROSSTOOLS_PREFIX)-objcopy
 INCLUDES          = -I$(CROSSTOOLS_PATH)/$(CROSSTOOLS_PREFIX)/include
-LOCAL_INCLUDES    =
-ASFLAGS           = $(INCLUDES)
+LOCAL_INCLUDES    = -I$(CROSSTOOLS_PATH)/../libnds/include
+ASFLAGS           =  $(INCLUDES)/
 
 # -DGAMEBOY       mandatory
 # -DGAMEBOY_DMA
@@ -36,9 +36,9 @@ GAMEBOY_FLAGS     = -DGAMEBOY -DNDS
 # COPTFLAG        = -Os
 COPTFLAG          = -O3
 CFLAGS            = $(GAMEBOY_FLAGS) $(INCLUDES) $(LOCAL_INCLUDES) $(COPTFLAG) \
-                    -specs=ds_arm9.specs 
+                    -specs=ds_arm9.specs  -DARM9
 CFLAGS_ARM        = $(GAMEBOY_FLAGS) $(INCLUDES) $(LOCAL_INCLUDES) $(COPTFLAG) \
-                    -marm -mthumb-interwork -specs=ds_arm9.specs 
+                    -marm -mthumb-interwork -specs=ds_arm9.specs -DARM9
 LDFLAGS           = -Map unixv5.map -lm -Lc:/devkitpro/libnds/lib -lnds9 
 #LDFLAGS           = -lm
 OBJCOPYFLAGS      = -v -O binary
@@ -130,7 +130,8 @@ $(GBAUNIXV5_ROM): $(GBAUNIXV5_TMP) $(UNIXV5_DISK)
 	$(CC) $(CFLAGS) -c nds/nds_fsio_core.c -o nds/nds_fsio_core.o
 	$(CC) $(CFLAGS) -o $(GBAUNIXV5_ELF) $(OBJS) -Wl,$(LDFLAGS)
 	$(OBJCOPY) $(OBJCOPYFLAGS) $(GBAUNIXV5_ELF) $(GBAUNIXV5_TMP)
-	cat $(GBAUNIXV5_TMP) $(UNIXV5_DISK) > $@
+	#cat $(GBAUNIXV5_TMP) $(UNIXV5_DISK) > $@
+	ndstool -c $@ -9 $(GBAUNIXV5_TMP)
 	@du -h $@
 
 $(GBAUNIXV5_TMP): $(GBAUNIXV5_ELF)
