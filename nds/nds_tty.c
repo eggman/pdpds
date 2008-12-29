@@ -39,14 +39,16 @@ gba_tty_init(void)
     volatile unsigned short *pp;
 
     /* Enable mode 0 */
-    *((unsigned short *) (NDS_IOBASE + 0x00)) = 0x0100; /*MODE0|BG0*/
-    *((unsigned short *) (NDS_IOBASE + 0x08)) = 0x1080;
+    *((unsigned int *) (NDS_IOBASE + 0x0000)) = 0x0;     /* main : not use */
+    *((unsigned int *) (NDS_IOBASE + 0x1000)) = 0x10000 | (1<<8); /* sub : MODE0 2D BG0ACTIVE */
 
+#if 0
     /* Default palete, everything is white :-) */
     pp = (volatile unsigned short *)NDS_PALETTE;
     for (i = 255; i; i--)
         pp[i] = 0x7fff;
     pp[0] = 0;
+#endif
 
     gba_tty_X = 0;
     gba_tty_Y = 0;
