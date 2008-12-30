@@ -16,17 +16,55 @@ gba_tty_inittext(void)
     unsigned char bits;
     int i, j, r, b;
 
-    vp = (unsigned short *)NDS_VRAM;
+    vp = (unsigned short *) NDS_VRAM;
 
-    for (j = 0; (j < 2); j++) {
+    for (j = 1024*0; j < 1024*8; j++) {
+        *vp++ = 0xFFFF;
+    }
+    for (j = 1024*8; j < 1024*16; j++) {
+        *vp++ = 0x0FF0;
+    }
+    for (j = 1024*16; j < 1024*24; j++) {
+        *vp++ = 0x00FF;
+    }
+    for (j = 1024*24; j < 1024*32; j++) {
+        *vp++ = 0xF00F;
+    }
+    for (j = 1024*32; j < 1024*40; j++) {
+        *vp++ = 0xFF00;
+    }
+
+    cp = (struct charmap *) &gbatxt_charmap[0x41];
+    vp = (unsigned short *) NDS_VRAM;
+    for (i = 0; i < 8; i++) {
+       bits = cp->bitmap[i];
+       for (b = 0; b < 8; b += 1) {
+          *vp++ = (bits & (0x80>>b)) ? 0xFFFF : 0;
+       }
+       for (b = 0; b < 8; b += 1) {
+          *vp++ = (bits & (0x80>>b)) ? 0xFFFF : 0;
+       }
+       for (b = 0; b < 8; b += 1) {
+          *vp++ = (bits & (0x80>>b)) ? 0xFFFF : 0;
+       }
+
+       vp += 256-8*3;
+    } 
+    return;
+
+    for (j = 0; j < 1; j++) {
         cp = (struct charmap *) &gbatxt_charmap[0];
-        for (i = 0; (i < 128); i++, cp++) {
-            for (r = 0; (r < 8); r++) {
+
+	/* 1 line */
+        for (i = 0; i < 32; i++, cp++) {
+
+	    /* 1 char */
+            for (r = 0; r < 512; r++) {
                 bits = cp->bitmap[r];
-                    for (b = 0; (b < 8); b += 2) {
-                        *vp++ = ((bits & (0x80>>b)) ? 1 : 0) |
-                          ((bits & (0x40>>b)) ? 0x100 : 0);
+                    for (b = 0; b < 8; b += 1) {
+                        *vp++ = (bits & (0x80>>b)) ? 0xFFFF : 0;
                     }
+                vp =  vp -8 + 256;
             }
         }
     }
@@ -38,9 +76,21 @@ gba_tty_init(void)
     int i;
     volatile unsigned short *pp;
 
-    /* Enable mode 0 */
-    *((unsigned int *) (NDS_IOBASE + 0x0000)) = 0x0;     /* main : not use */
-    *((unsigned int *) (NDS_IOBASE + 0x1000)) = 0x10000 | (1<<8); /* sub : MODE0 2D BG0ACTIVE */
+    /* SWAP */
+    *((unsigned int *) (NDS_IOBASE + 0x0304)) = 0x0; 
+
+    /* Enable mode 0 2D */
+    *((unsigned int  *) (NDS_IOBASE + 0x0000)) = 0x20000;
+    *((unsigned char *) (NDS_IOBASE + 0x0240)) = 0x80;
+    *((unsigned int  *) (NDS_IOBASE + 0x1000)) = 0x0;
+
+//    *((unsigned short *) (0x6800000)) = (127<<10)|(127<<5)|127;
+//    *((unsigned short *) (0x6800001)) = (127<<10)|(127<<5)|127;
+//    *((unsigned short *) (0x6800002)) = (127<<10)|(127<<5)|127;
+
+
+    /* Enable VRAMC */
+//    *((unsigned char *) (NDS_IOBASE + 0x240)) = 1 | 4; /* VRAM_ENABLE | VRAM_C_SUB_BG */
 
 #if 0
     /* Default palete, everything is white :-) */
@@ -87,7 +137,7 @@ gba_tty_putc(int c)
 {
     unsigned short *vp;
 
-    vp = (unsigned short *)(NDS_VRAM + 0x8000);
+    vp = (unsigned short *)(NDS_VRAM + 0x0000);
     vp += (gba_tty_Y * NDS_XMAX) + gba_tty_X;
     *vp = c;
 
