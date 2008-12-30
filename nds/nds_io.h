@@ -21,7 +21,7 @@ typedef	volatile s32      vs32;
 #define	NDS_RAM     0x02000000
 #define	NDS_IOBASE  0x04000000
 #define NDS_PALETTE 0x05000000
-#define	NDS_VRAM    0x06000000
+#define	NDS_VRAM    0x06800000 /* Frame Buffer Mode */
 
 #define GBA_IWRAM_DATA
 
