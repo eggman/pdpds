@@ -16,6 +16,7 @@ void
 gba_fsio_init(void)
 {
     int i;
+    char buf[30];
 #ifdef GAMEBOY_WCACHE
     unsigned char *Wbuf;
 #endif
@@ -55,6 +56,8 @@ gba_fsio_init(void)
     filestable[0] = 1;
     filestable[1] = 1;
     filestable[2] = 1;
+    //siprintf(buf, "unixv5 addr=%x\n", unixv5); buf[20]=0; gba_tty_print(buf);
+    //siprintf(buf, "unixv5 %02x%02x%02x%02x\n", *(unixv5),*(unixv5+1),*(unixv5+2),*(unixv5+3)); buf[20]=0; gba_tty_print(buf);
 }
 
 FILE *

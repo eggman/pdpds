@@ -70,7 +70,7 @@ gba_tty_scroll(void)
     unsigned short *sp, *dp;
     int len;
 
-    dp = (unsigned short *)(NDS_VRAM + 0x8000);
+    dp = (unsigned short *)(NDS_VRAM + 0x0000);
     sp = dp + NDS_XMAX;
     len = (NDS_XMAX * (NDS_YLEN - 1));
 
