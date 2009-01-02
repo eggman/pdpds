@@ -3,7 +3,7 @@
 void
 nds_reset(void)
 {
-    //nds_syscall(0x3);
+    swiSoftReset();
 }
 
 void

@@ -230,8 +230,8 @@ GAMEBOY_STATIC CTAB cmd_table[] = {
 	{ NULL, NULL, 0 }  };
 
 /* Main command loop */
-
 #ifdef GAMEBOY
+
 gba_tty_init();
 gba_intr_init();
 gba_fsio_init();

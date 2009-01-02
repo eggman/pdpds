@@ -43,7 +43,7 @@ gba_intr_init()
 {
     int i = 0;
 
-    REG_WAITCNT |= (1 << 14);
+    //REG_WAITCNT |= (1 << 14);
 #if 0
     REG_UND_IMC |= ((1 << 27) | (1 << 26) | (1 << 25) | (0 << 24));
 #endif
@@ -57,8 +57,8 @@ gba_intr_init()
 
 #ifdef GAMEBOY_KEYPAD_IRQ
     REG_P1CNT = (1 << 14) | (1 << 3);
-    gba_set_interrupt(INT_KEYPAD, gba_keypad_isr);
-    gba_enable_interrupt(INT_KEYPAD);
+    gba_set_interrupt(INT_KEYS, gba_keypad_isr);
+    gba_enable_interrupt(INT_KEYS);
 #endif
 
 #ifdef GAMEBOY_DMA3_IRQ
@@ -112,13 +112,13 @@ gba_enable_interrupt(intr_type_t intr)
         case INT_TIMER1:
         case INT_TIMER2:
         case INT_TIMER3:
-        case INT_SERIAL:
+        case INT_NETWORK:
         case INT_DMA0:
         case INT_DMA1:
         case INT_DMA2:
         case INT_DMA3:
-        case INT_KEYPAD:
-        case INT_GAMEPAK:
+        case INT_KEYS:
+        case INT_CART:
             REG_IE |= N2BIT(intr);
         break;
 
@@ -156,13 +156,13 @@ gba_disable_interrupt(intr_type_t intr)
         case INT_TIMER1:
         case INT_TIMER2:
         case INT_TIMER3:
-        case INT_SERIAL:
+        case INT_NETWORK:
         case INT_DMA0:
         case INT_DMA1:
         case INT_DMA2:
         case INT_DMA3:
-        case INT_KEYPAD:
-        case INT_GAMEPAK:
+        case INT_KEYS:
+        case INT_CART:
             REG_IE &= ~N2BIT(intr);
         break;
 
